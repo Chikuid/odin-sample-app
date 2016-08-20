@@ -1,0 +1,4 @@
+gaara:
+  name: Gaara Singh
+  email: chikuid119@gmail.com
+  password_digest: <%= User.digest('password') %>
