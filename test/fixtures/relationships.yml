@@ -1,0 +1,16 @@
+
+one:
+  follower: gaara
+  followed: lana
+
+two:
+  follower: gaara
+  followed: malory
+
+three:
+  follower: lana
+  followed: gaara
+
+four:
+  follower: archer
+  followed: gaara

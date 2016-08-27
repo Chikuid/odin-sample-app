@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  
+
   def setup
   	@user = User.new(name: "Shivam Singh", email: "example@gmail.com",
   					password: "foobar", password_confirmation: "foobar")
@@ -84,5 +84,33 @@ class UserTest < ActiveSupport::TestCase
       @user.destroy
     end
   end
-  
+
+  test "should follow and unfollow a user" do
+    gaara = users(:gaara)
+    archer = users(:archer)
+    assert_not gaara.following?(archer)
+    gaara.follow(archer)
+    assert archer.followers.include?(gaara)
+    assert gaara.following?(archer)
+    gaara.unfollow(archer)
+    assert_not gaara.following?(archer)
+  end
+
+  test "feed should have the right posts" do
+    gaara = users(:gaara)
+    archer = users(:archer)
+    lana = users(:lana)
+    # Posts from followed user
+    lana.microposts.each do |post_following|
+      assert gaara.feed.include?(post_following)
+    end
+    # Posts from self
+    gaara.microposts.each do |post_self|
+      assert gaara.feed.include?(post_self)
+    end
+    # Post from unfollowed user
+    archer.microposts.each do |post_unfollowed|
+      assert_not gaara.feed.include?(post_unfollowed)
+    end
+  end
 end
